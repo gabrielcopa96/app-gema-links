@@ -1,0 +1,111 @@
+---
+const title = "Error en el Pago - Gema Salud Animal";
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/favicon.png">
+</head>
+<body class="bg-[#1a1625] text-white antialiased font-display overflow-x-hidden">
+  <div class="relative min-h-screen flex items-center justify-center px-4 py-12">
+    <!-- Background gradient effect -->
+    <div class="absolute inset-0 bg-gradient-to-br from-[#1a1625] via-[#2d1b4e] to-[#1a1625]"></div>
+    <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px]"></div>
+    
+    <div class="relative z-10 max-w-md mx-auto w-full">
+      <div class="bg-slate-900/50 backdrop-blur-xl rounded-3xl p-8 border border-slate-800 shadow-2xl">
+        <!-- Error Icon -->
+        <div class="flex justify-center mb-6">
+          <div class="size-20 bg-red-500/20 rounded-full flex items-center justify-center">
+            <svg class="size-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </div>
+        </div>
+        
+        <!-- Title -->
+        <h1 class="text-3xl font-black text-center mb-3">Error en el Pago</h1>
+        <p class="text-slate-400 text-center mb-8">Hubo un problema con tu pago. Por favor, intenta nuevamente.</p>
+        
+        <!-- Payment Info -->
+        <div class="bg-slate-800/50 rounded-2xl p-4 mb-6 space-y-3" id="paymentInfo">
+          <!-- Se llenará con JavaScript -->
+        </div>
+        
+        <!-- Loading State -->
+        <div id="loadingState" class="text-center">
+          <div class="inline-block size-8 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p class="text-slate-400 text-sm">Redirigiendo a la aplicación...</p>
+        </div>
+        
+        <!-- Manual Button -->
+        <a 
+          href="#" 
+          id="manualButton" 
+          class="hidden w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 px-6 rounded-xl transition-all text-center block"
+        >
+          Reintentar en la App
+        </a>
+        
+        <!-- Footer -->
+        <p class="text-center text-xs text-slate-500 mt-6">
+          ¿Necesitas ayuda? 
+          <a href="mailto:soporte@gemasa.com.ar" class="text-primary hover:underline">Contáctanos</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const subscriptionId = urlParams.get('subscription_id');
+    const status = urlParams.get('status');
+    const error = urlParams.get('error');
+    
+    // Mostrar información del pago
+    const paymentInfo = document.getElementById('paymentInfo');
+    paymentInfo.innerHTML = `
+      <div class="flex justify-between items-center text-sm">
+        <span class="text-slate-400">ID de Suscripción:</span>
+        <span class="text-white font-semibold">${subscriptionId || 'N/A'}</span>
+      </div>
+      <div class="flex justify-between items-center text-sm">
+        <span class="text-slate-400">Estado:</span>
+        <span class="text-red-500 font-semibold">Rechazado</span>
+      </div>
+      ${error ? `
+      <div class="flex justify-between items-center text-sm">
+        <span class="text-slate-400">Error:</span>
+        <span class="text-white font-semibold text-xs">${error}</span>
+      </div>
+      ` : ''}
+    `;
+    
+    // Construir URL de la app
+    const appUrl = `https://app.gemasa.com.ar/payment/failure?subscription_id=${subscriptionId}&status=${status}&error=${error}`;
+    
+    console.log('Intentando abrir app con URL:', appUrl);
+    
+    // Configurar botón manual
+    const manualButton = document.getElementById('manualButton');
+    manualButton.href = appUrl;
+    
+    // Intentar abrir la app después de 2 segundos
+    setTimeout(() => {
+      window.location.href = appUrl;
+    }, 2000);
+    
+    // Después de 3 segundos, mostrar botón manual
+    setTimeout(() => {
+      document.getElementById('loadingState').style.display = 'none';
+      manualButton.classList.remove('hidden');
+    }, 3000);
+  </script>
+</body>
+</html>

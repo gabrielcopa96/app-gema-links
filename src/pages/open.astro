@@ -1,0 +1,130 @@
+---
+// Página para colaboraciones - otras apps pueden usar esta URL
+// Ejemplo: https://app.gemasa.com.ar/open?path=/profile&ref=partner-app
+const title = "Abriendo Gema Salud...";
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 40px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+    
+    p {
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">🐾</div>
+    <h1>Abriendo Gema Salud</h1>
+    <p>Serás redirigido a la aplicación en un momento...</p>
+    <div class="spinner"></div>
+  </div>
+
+  <script>
+    // Obtener todos los parámetros de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const path = urlParams.get('path') || '';
+    const ref = urlParams.get('ref') || '';
+    
+    // Construir la URL completa con todos los parámetros
+    let deepLink = 'gemasalud://';
+    
+    if (path) {
+      deepLink += path.startsWith('/') ? path.substring(1) : path;
+    }
+    
+    // Agregar parámetros adicionales
+    const params = new URLSearchParams();
+    urlParams.forEach((value, key) => {
+      if (key !== 'path') {
+        params.append(key, value);
+      }
+    });
+    
+    if (params.toString()) {
+      deepLink += (deepLink.includes('?') ? '&' : '?') + params.toString();
+    }
+    
+    console.log('Opening deep link:', deepLink);
+    
+    // Intentar abrir la app inmediatamente
+    window.location.href = deepLink;
+    
+    // Fallback: Si después de 3 segundos no se abrió, redirigir a la home
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 3000);
+  </script>
+</body>
+</html>

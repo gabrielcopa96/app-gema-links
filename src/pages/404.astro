@@ -1,0 +1,86 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+
+const title = "Página no encontrada - Gema Salud Animal";
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/favicon.png">
+</head>
+<body class="bg-[#1a1625] text-white antialiased font-display overflow-x-hidden">
+  <div class="relative min-h-screen flex items-center justify-center px-4 py-12">
+    <!-- Background gradient effect -->
+    <div class="absolute inset-0 bg-gradient-to-br from-[#1a1625] via-[#2d1b4e] to-[#1a1625]"></div>
+    <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px]"></div>
+    
+    <div class="relative z-10 max-w-2xl mx-auto w-full text-center">
+      <!-- Logo -->
+      <div class="flex justify-center mb-8">
+        <div class="w-24 h-24 relative">
+          <Image 
+            src={logo} 
+            alt="Gema Salud Animal Logo" 
+            class="w-full h-full object-contain"
+            loading="eager"
+          />
+        </div>
+      </div>
+      
+      <!-- 404 Number -->
+      <div class="mb-8">
+        <h1 class="text-9xl sm:text-[12rem] font-black text-primary/20 leading-none mb-4">404</h1>
+        <div class="h-1 w-32 bg-primary mx-auto rounded-full"></div>
+      </div>
+      
+      <!-- Message -->
+      <h2 class="text-3xl sm:text-4xl font-black mb-4">Página no encontrada</h2>
+      <p class="text-slate-400 text-lg mb-8 max-w-md mx-auto">
+        Lo sentimos, la página que buscas no existe o ha sido movida.
+      </p>
+      
+      <!-- Actions -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a 
+          href="/" 
+          class="bg-primary hover:bg-primary/90 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-xl hover:shadow-2xl hover:scale-105 inline-flex items-center gap-2"
+        >
+          <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          Volver al inicio
+        </a>
+        
+        <a 
+          href="mailto:soporte@gemasa.com.ar" 
+          class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 px-8 rounded-xl transition-all border border-slate-700 hover:border-slate-600 inline-flex items-center gap-2"
+        >
+          <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          Contactar soporte
+        </a>
+      </div>
+      
+      <!-- Quick Links -->
+      <div class="mt-12 pt-8 border-t border-slate-800">
+        <p class="text-slate-500 text-sm mb-4">Enlaces útiles:</p>
+        <div class="flex flex-wrap justify-center gap-4 text-sm">
+          <a href="/" class="text-slate-400 hover:text-primary transition-colors">Inicio</a>
+          <span class="text-slate-700">•</span>
+          <a href="/payment/success" class="text-slate-400 hover:text-primary transition-colors">Pagos</a>
+          <span class="text-slate-700">•</span>
+          <a href="https://gemasa.com.ar" class="text-slate-400 hover:text-primary transition-colors">Sitio web</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+---
+const title = "Error en la Suscripción - Gema Salud Animal";
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/favicon.png">
+</head>
+<body class="bg-[#1a1625] text-white antialiased font-display overflow-x-hidden">
+  <div class="relative min-h-screen flex items-center justify-center px-4 py-12">
+    <div class="absolute inset-0 bg-gradient-to-br from-[#1a1625] via-[#2d1b4e] to-[#1a1625]"></div>
+    <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px]"></div>
+    
+    <div class="relative z-10 max-w-md mx-auto w-full">
+      <div class="bg-slate-900/50 backdrop-blur-xl rounded-3xl p-8 border border-slate-800 shadow-2xl">
+        <div class="flex justify-center mb-6">
+          <div class="size-20 bg-red-500/20 rounded-full flex items-center justify-center">
+            <svg class="size-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </div>
+        </div>
+        
+        <h1 class="text-3xl font-black text-center mb-3">Error en la Suscripción</h1>
+        <p class="text-slate-400 text-center mb-8">Hubo un problema con tu pago. Intenta nuevamente.</p>
+        
+        <div class="bg-slate-800/50 rounded-2xl p-4 mb-6 space-y-3" id="paymentInfo"></div>
+        
+        <div id="loadingState" class="text-center">
+          <div class="inline-block size-8 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p class="text-slate-400 text-sm">Redirigiendo a la aplicación...</p>
+        </div>
+        
+        <a 
+          href="#" 
+          id="manualButton" 
+          class="hidden w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 px-6 rounded-xl transition-all text-center block"
+        >
+          Reintentar en la App
+        </a>
+        
+        <p class="text-center text-xs text-slate-500 mt-6">
+          ¿Necesitas ayuda?
+          <a href="mailto:soporte@gemasa.com.ar" class="text-primary hover:underline">Contáctanos</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const subscriptionId = urlParams.get('subscription_id');
+    const paymentId = urlParams.get('payment_id');
+    const status = urlParams.get('status') || 'failure';
+    const error = urlParams.get('error');
+    const appUrl = `https://app.gemasa.com.ar/subscription/failure?subscription_id=${subscriptionId || ''}&payment_id=${paymentId || ''}&status=${status}&error=${error || ''}`;
+
+    const paymentInfo = document.getElementById('paymentInfo');
+    paymentInfo.innerHTML = `
+      <div class="flex justify-between items-center text-sm">
+        <span class="text-slate-400">ID de Suscripción:</span>
+        <span class="text-white font-semibold">${subscriptionId || 'N/A'}</span>
+      </div>
+      <div class="flex justify-between items-center text-sm">
+        <span class="text-slate-400">ID de Pago:</span>
+        <span class="text-white font-semibold">${paymentId || 'N/A'}</span>
+      </div>
+      <div class="flex justify-between items-center text-sm">
+        <span class="text-slate-400">Estado:</span>
+        <span class="text-red-500 font-semibold">Rechazado</span>
+      </div>
+      ${error ? `
+      <div class="flex justify-between items-center text-sm">
+        <span class="text-slate-400">Error:</span>
+        <span class="text-white font-semibold text-xs">${error}</span>
+      </div>
+      ` : ''}
+    `;
+
+    const manualButton = document.getElementById('manualButton');
+    manualButton.href = appUrl;
+
+    setTimeout(() => {
+      window.location.href = appUrl;
+    }, 2000);
+
+    setTimeout(() => {
+      document.getElementById('loadingState').style.display = 'none';
+      manualButton.classList.remove('hidden');
+    }, 3000);
+  </script>
+</body>
+</html>

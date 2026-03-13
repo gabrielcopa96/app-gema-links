@@ -304,27 +304,17 @@ const title = "Gema Salud Animal - Descarga nuestra App";
     const path = urlParams.get('path') || '';
     const params = window.location.search;
     
-    // Construir deep link
-    let deepLink;
-    if (path) {
-      deepLink = `https://app.gemasa.com.ar${path}${params}`;
-    } else {
-      deepLink = 'gemasalud://';
-    }
+    // Construir deep link (Custom Scheme)
+    // Para redirección automática desde la propia web, el custom scheme es más confiable en iOS
+    const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+    const deepLink = `gemasalud://${cleanPath}${params}`;
     
-    console.log('Deep link:', deepLink);
+    console.log('Deep link (Custom Scheme):', deepLink);
     console.log('Platform:', { isIOS, isAndroid });
     
     // Intentar abrir la app automáticamente después de 1 segundo
     setTimeout(() => {
       window.location.href = deepLink;
-      
-      // Fallback con custom scheme
-      if (!deepLink.startsWith('https://')) {
-        setTimeout(() => {
-          window.location.href = `gemasalud://${path}${params}`;
-        }, 500);
-      }
     }, 1000);
   </script>
 </body>

@@ -5,6 +5,9 @@
       {
         "appID": "U2N5M37S3L.com.gemasa.app",
         "paths": [
+          "*",
+          "/",
+          "/open/*",
           "/payment/*",
           "/subscription/*",
           "/app/*"
